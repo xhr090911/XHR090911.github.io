@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>如何运行别人的HTML文件 - 完整指南</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 60px 20px;
+            text-align: center;
+            border-radius: 0 0 20px 20px;
+            margin-bottom: 40px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 15px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+        
+        .card-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+            margin-bottom: 40px;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+        }
+        
+        .card h2 {
+            color: #2575fc;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+        }
+        
+        .card h2 i {
+            margin-right: 10px;
+            font-size: 1.8rem;
+        }
+        
+        .step {
+            counter-increment: step-counter;
+            margin-bottom: 30px;
+            padding-left: 70px;
+            position: relative;
+        }
+        
+        .step:before {
+            content: counter(step-counter);
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            left: 0;
+            top: 0;
+        }
+        
+        .code-block {
+            background: #2d2d2d;
+            color: #f8f8f2;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            overflow-x: auto;
+            font-family: 'Courier New', monospace;
+        }
+        
+        .demo-area {
+            background: white;
+            border-radius: 12px;
+            padding: 25px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+        
+        .demo-area h2 {
+            color: #2575fc;
+            margin-bottom: 20px;
+        }
+        
+        .editor {
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            margin-bottom: 20px;
+        }
+        
+        .editor-header {
+            background: #f1f1f1;
+            padding: 10px 15px;
+            border-bottom: 1px solid #ddd;
+            font-weight: bold;
+        }
+        
+        .editor-content {
+            padding: 15px;
+            min-height: 200px;
+            background: #f9f9f9;
+        }
+        
+        .btn {
+            display: inline-block;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+        
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .result-frame {
+            width: 100%;
+            height: 300px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            margin-top: 20px;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            color: #666;
+            border-top: 1px solid #eee;
+        }
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.2rem;
+            }
+            
+            .card-container {
+                grid-template-columns: 1fr;
+            }
+            
+            .step {
+                padding-left: 60px;
+            }
+            
+            .step:before {
+                width: 40px;
+                height: 40px;
+                font-size: 1.2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>如何运行别人的HTML文件</h1>
+            <p class="subtitle">完整指南 - 从初学者到高级用户的多种方法</p>
+        </div>
+    </header>
+    
+    <div class="container">
+        <div class="card-container">
+            <div class="card">
+                <h2><i>📁</i> 方法一：直接双击打开</h2>
+                <p>最简单的方法，适用于所有操作系统。找到HTML文件后直接双击，系统会使用默认浏览器打开。</p>
+                <div class="step">
+                    <h3>步骤</h3>
+                    <p>1. 找到HTML文件（通常以.html或.htm结尾）</p>
+                    <p>2. 双击该文件</p>
+                    <p>3. 文件将在默认浏览器中打开</p>
+                </div>
+                <div class="step">
+                    <h3>注意事项</h3>
+                    <p>如果文件包含外部资源（CSS、JS、图片），确保这些文件与HTML文件在同一文件夹中，或路径正确。</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2><i>🌐</i> 方法二：使用浏览器打开</h2>
+                <p>通过浏览器的"打开文件"功能运行HTML文件。</p>
+                <div class="step">
+                    <h3>步骤</h3>
+                    <p>1. 打开浏览器（Chrome、Firefox、Edge等）</p>
+                    <p>2. 按Ctrl+O（Windows）或Cmd+O（Mac）</p>
+                    <p>3. 选择HTML文件并打开</p>
+                </div>
+                <div class="step">
+                    <h3>优点</h3>
+                    <p>可以手动选择使用哪个浏览器打开文件，特别是当默认浏览器不是你想要的时候。</p>
+                </div>
+            </div>
+            
+            <div class="card">
+                <h2><i>⚙️</i> 方法三：使用本地服务器</h2>
+                <p>对于复杂的HTML项目，特别是使用AJAX或某些JavaScript功能的项目，需要使用本地服务器。</p>
+                <div class="step">
+                    <h3>使用Python</h3>
+                    <div class="code-block">
+                        # Python 3<br>
+                        python -m http.server 8000
+                    </div>
+                </div>
+                <div class="step">
+                    <h3>使用Node.js</h3>
+                    <div class="code-block">
+                        # 安装http-server<br>
+                        npm install -g http-server<br><br>
+                        # 运行<br>
+                        http-server -p 8000
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="demo-area">
+            <h2>在线HTML编辑器</h2>
+            <p>尝试编辑下面的HTML代码，然后点击"运行代码"查看结果。</p>
+            
+            <div class="editor">
+                <div class="editor-header">HTML 编辑器</div>
+                <div class="editor-content" id="html-editor" contenteditable="true">
+&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+    &lt;title&gt;我的网页&lt;/title&gt;
+    &lt;style&gt;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+            background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+        }
+        h1 {
+            color: #2c3e50;
+        }
+        .btn {
+            background: #3498db;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+    &lt;/style&gt;
+&lt;/head&gt;
+&lt;body&gt;
+    &lt;h1&gt;欢迎来到我的网页&lt;/h1&gt;
+    &lt;p&gt;这是一个简单的HTML示例&lt;/p&gt;
+    &lt;button class="btn" onclick="alert('你好！')"&gt;点击我&lt;/button&gt;
+&lt;/body&gt;
+&lt;/html&gt;
+                </div>
+            </div>
+            
+            <button class="btn" id="run-code">运行代码</button>
+            
+            <div class="result-frame" id="result-frame">
+                <!-- 结果将在这里显示 -->
+            </div>
+        </div>
+        
+        <div class="card">
+            <h2><i>🔧</i> 高级技巧</h2>
+            <div class="step">
+                <h3>使用开发者工具</h3>
+                <p>在浏览器中按F12打开开发者工具，可以：</p>
+                <p>• 调试JavaScript代码</p>
+                <p>• 检查HTML和CSS</p>
+                <p>• 查看网络请求</p>
+                <p>• 测试响应式设计</p>
+            </div>
+            <div class="step">
+                <h3>使用代码编辑器</h3>
+                <p>使用专业的代码编辑器（如VS Code、Sublime Text）可以：</p>
+                <p>• 获得语法高亮</p>
+                <p>• 使用代码自动完成</p>
+                <p>• 集成终端和Git</p>
+                <p>• 安装有用的扩展</p>
+            </div>
+        </div>
+    </div>
+    
+    <footer>
+        <div class="container">
+            <p>© 2023 HTML运行指南 | 设计用于教育目的</p>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('run-code').addEventListener('click', function() {
+            const htmlCode = document.getElementById('html-editor').innerText;
+            const resultFrame = document.getElementById('result-frame');
+            
+            // 清空之前的内容
+            resultFrame.innerHTML = '';
+            
+            // 创建iframe来显示结果
+            const iframe = document.createElement('iframe');
+            iframe.className = 'result-frame';
+            iframe.style.height = '300px';
+            iframe.style.width = '100%';
+            iframe.style.border = '1px solid #ddd';
+            iframe.style.borderRadius = '8px';
+            
+            resultFrame.appendChild(iframe);
+            
+            // 将HTML代码写入iframe
+            const iframeDoc = iframe.contentDocument || iframe.contentWindow.document;
+            iframeDoc.open();
+            iframeDoc.write(htmlCode);
+            iframeDoc.close();
+        });
+    </script>
+</body>
+</html>
